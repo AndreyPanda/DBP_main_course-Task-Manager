@@ -110,6 +110,7 @@ files = [
 ]
 
 [[package]]
+
 name = "psycopg2-binary"
 version = "2.9.5"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
@@ -191,6 +192,7 @@ files = [
 ]
 
 [[package]]
+
 name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
@@ -320,4 +322,6 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
+
 content-hash = "ba455a437e8ca26deeaa10cae19061e511051a4f7e3ac1a3ee3de1884515233d"
+
