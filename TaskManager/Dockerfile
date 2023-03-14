@@ -34,7 +34,7 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 
 ENV PATH $PATH:/root/.local/bin
 
-RUN poetry config virtualenvs.create true
+RUN poetry config virtualenvs.create false
 
 RUN mkdir -p /app
 WORKDIR /app
