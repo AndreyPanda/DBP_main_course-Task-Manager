@@ -11,6 +11,8 @@ django-admin = "^2.0.2"
 psycopg2-binary = "^2.9.5"
 django = "^4.1.7"
 djangorestframework = "^3.14.0"
+django-filter = "^22.1"
+markdown = "^3.4.3"
 
 
 [tool.poetry.dev-dependencies]
