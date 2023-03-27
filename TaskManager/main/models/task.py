@@ -1,4 +1,6 @@
 from django.db import models
+from .user import User
+from .tag import Tag
 
 
 class Task(models.Model):
@@ -27,3 +29,10 @@ class Task(models.Model):
     priority = models.CharField(
         max_length=255, default=Priority.MEDIUM, choices=Priority.choices
     )
+    author = models.ForeignKey(
+        User, related_name="user_author", on_delete=models.SET_NULL, null=True
+    )
+    executor = models.ForeignKey(
+        User, related_name="user_executor", on_delete=models.SET_NULL, null=True
+    )
+    tags = models.ManyToManyField(Tag)
