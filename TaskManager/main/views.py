@@ -8,12 +8,13 @@ from django_filters import (
     ModelMultipleChoiceFilter,
 )
 
+
 class UserFilter(FilterSet):
     name = CharFilter(lookup_expr="icontains")
 
     class Meta:
         model = User
-        fields = ('first_name',)
+        fields = ("first_name",)
 
 
 class TaskFilter(FilterSet):
@@ -26,7 +27,7 @@ class TaskFilter(FilterSet):
 
     class Meta:
         model = Task
-        fields = ('state', 'tags', 'author', 'executor')
+        fields = ("state", "tags", "author", "executor")
 
 
 class UserViewSet(viewsets.ModelViewSet):

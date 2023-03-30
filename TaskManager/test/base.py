@@ -41,18 +41,3 @@ class TestViewSetBase(APITestCase):
         self.client.force_login(self.user)
         response = self.client.get(self.list_url(args))
         return response
-
-    def retrieve(self, key: Union[int, str]) -> dict:
-        self.login(self.client, self.user)
-        response = self.client.get(self.detail_url(key))
-        return response
-
-    def update(self, key: Union[int, str], data: dict) -> dict:
-        self.login(self.client, self.user)
-        response = self.client.put(self.detail_url(key), data=data)
-        return response
-
-    def delete(self, key: Union[int, str]) -> None:
-        self.login(self.client, self.user)
-        response = self.client.delete(self.detail_url(key))
-        return response
