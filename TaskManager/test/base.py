@@ -51,3 +51,8 @@ class TestViewSetBase(APITestCase):
         self.client.force_login(self.user)
         response = self.client.put(self.detail_url(key), data=data)
         return response
+
+    def delete(self, key: Union[int, str]) -> None:
+        self.client.force_login(self.user)
+        response = self.client.delete(self.detail_url(key))
+        return response

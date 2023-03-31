@@ -55,3 +55,20 @@ class TestUserViewSet(TestViewSetBase):
 
         assert response.status_code == HTTPStatus.OK, response.content
         assert response.json()['first_name'] == 'Maria'
+
+    def test_delete(self):
+        some_user_attributes = {
+            'first_name': 'Godzilla',
+            'last_name': 'Petrov',
+            'email': 'godzilla@gmail.com',
+            'role': 'manager',
+        }
+        some_user = self.create_api_user(some_user_attributes)
+
+        response = self.delete(key=some_user.id)
+        response_list = self.list()
+        self.user_attributes['id'] = self.user.id
+        expected_response_list = [self.user_attributes]
+
+        assert response.status_code == HTTPStatus.NO_CONTENT, response.content
+        assert response_list.json() == expected_response_list
