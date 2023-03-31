@@ -3,19 +3,19 @@ from http import HTTPStatus
 
 
 class TestUserViewSet(TestViewSetBase):
-    basename = "users"
+    basename = 'users'
     user_attributes = {
-        "username": "johnsmit",
-        "first_name": "John",
-        "last_name": "Smith",
-        "email": "john@test.com",
-        "role": "developer",
+        'username': 'johnsmit',
+        'first_name': 'John',
+        'last_name': 'Smith',
+        'email': 'john@test.com',
+        'role': 'developer',
     }
 
     @staticmethod
     def expected_details(entity: dict, attributes: dict):
-        attributes.pop("username")
-        return {**attributes, "id": entity["id"]}
+        attributes.pop('username')
+        return {**attributes, 'id': entity['id']}
 
     def test_create(self):
         user = self.create(self.user_attributes)
@@ -30,11 +30,28 @@ class TestUserViewSet(TestViewSetBase):
             'role': 'admin',
         }
         user_2 = self.create_api_user(user_2_attributes)
-        user_2_attributes["id"] = user_2.id
+        user_2_attributes['id'] = user_2.id
 
         response = self.list()
-        self.user_attributes["id"] = self.user.id
+        self.user_attributes['id'] = self.user.id
         expected_response = [self.user_attributes, user_2_attributes]
 
         assert response.status_code == HTTPStatus.OK, response.content
         assert response.json() == expected_response
+
+    def test_retrieve(self):
+        response = self.retrieve(key=self.user_attributes['id'])
+        assert response.json() == self.user_attributes
+
+    def test_update(self):
+        data = self.user_attributes.copy()
+        data['first_name'] = 'Maria'
+        del data['id']
+
+        response = self.update(
+            key=self.user.id,
+            data=data,
+        )
+
+        assert response.status_code == HTTPStatus.OK, response.content
+        assert response.json()['first_name'] == 'Maria'

@@ -6,9 +6,13 @@ from http import HTTPStatus
 
 
 class TestViewSetBase(APITestCase):
-    user: User = None
-    client: APIClient = None
-    basename: str
+    # user: User = None
+    # client: APIClient = None
+    # basename: str
+
+    @staticmethod
+    def create_api_user(user_attributes):
+        return User.objects.create(**user_attributes)
 
     @classmethod
     def setUpTestData(cls) -> None:
@@ -18,10 +22,6 @@ class TestViewSetBase(APITestCase):
         else:
             cls.user = None
         cls.client = APIClient()
-
-    @staticmethod
-    def create_api_user(user_attributes):
-        return User.objects.create(**user_attributes)
 
     @classmethod
     def detail_url(cls, key: Union[int, str]) -> str:
@@ -40,4 +40,14 @@ class TestViewSetBase(APITestCase):
     def list(self, args: List[Union[str, int]] = None) -> dict:
         self.client.force_login(self.user)
         response = self.client.get(self.list_url(args))
+        return response
+
+    def retrieve(self, key: Union[int, str]) -> dict:
+        self.client.force_login(self.user)
+        response = self.client.get(self.detail_url(key))
+        return response
+
+    def update(self, key: Union[int, str], data: dict) -> dict:
+        self.client.force_login(self.user)
+        response = self.client.put(self.detail_url(key), data=data)
         return response
