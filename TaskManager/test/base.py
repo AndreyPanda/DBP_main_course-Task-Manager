@@ -6,9 +6,17 @@ from http import HTTPStatus
 
 
 class TestViewSetBase(APITestCase):
-    # user: User = None
-    # client: APIClient = None
-    # basename: str
+    user: User = None
+    client: APIClient = None
+    basename: str
+
+    setup_user_attributes = {
+        'username': 'johnsmit',
+        'first_name': 'John',
+        'last_name': 'Smith',
+        'email': 'john@test.com',
+        'role': 'developer',
+    }
 
     @staticmethod
     def create_api_user(user_attributes):
@@ -17,10 +25,7 @@ class TestViewSetBase(APITestCase):
     @classmethod
     def setUpTestData(cls) -> None:
         super().setUpTestData()
-        if cls.user_attributes:
-            cls.user = cls.create_api_user(cls.user_attributes)
-        else:
-            cls.user = None
+        cls.user = cls.create_api_user(cls.setup_user_attributes)
         cls.client = APIClient()
 
     @classmethod
