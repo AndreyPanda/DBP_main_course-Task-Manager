@@ -5,8 +5,8 @@ from http import HTTPStatus
 class TestUserViewSet(TestViewSetBase):
     basename = 'users'
     user_attributes = {
-        'username': 'johnsmitagain',
-        'first_name': 'John',
+        'username': 'mariasmith',
+        'first_name': 'Maria',
         'last_name': 'Smith',
         'email': 'john@test.com',
         'role': 'developer',
@@ -52,3 +52,21 @@ class TestUserViewSet(TestViewSetBase):
         expected_response_list = self.expected_details({'id': self.user.id}, self.setup_user_attributes)
         assert response.status_code == HTTPStatus.NO_CONTENT, response.content
         assert response_list.json() == [expected_response_list]
+
+    def test_unauthenticated_request(self):
+        response = self.unauthenticated_request()
+        assert response.status_code == HTTPStatus.FORBIDDEN
+
+    def test_filter(self):
+        filter_name = "username"
+        filter_value = "a"
+        user_for_filter = self.create_api_user(self.user_attributes)
+        users = self.list().json()
+        expected_users: list = []
+        for user in users:
+            for char in user[filter_name]:
+                if char == filter_value:
+                    expected_users.append(user)
+                    break
+        response = self.filter(filter=filter_name, filter_value=filter_value)
+        assert response == expected_users

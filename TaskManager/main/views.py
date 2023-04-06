@@ -10,11 +10,11 @@ from django_filters import (
 
 
 class UserFilter(FilterSet):
-    name = CharFilter(lookup_expr="icontains")
+    username = CharFilter(lookup_expr="icontains")
 
     class Meta:
         model = User
-        fields = ("first_name",)
+        fields = ("username",)
 
 
 class TaskFilter(FilterSet):
