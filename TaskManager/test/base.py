@@ -1,5 +1,4 @@
-from functools import partial
-from main.models import User
+from main.models import User, Task, Tag
 from rest_framework.test import APIClient, APITestCase
 from typing import Union, List
 from django.urls import reverse
@@ -23,6 +22,14 @@ class TestViewSetBase(APITestCase):
     def create_api_user(user_attributes):
         return User.objects.create(**user_attributes)
 
+    @staticmethod
+    def create_task(task_attributes):
+        return Task.objects.create(**task_attributes)
+
+    @staticmethod
+    def create_tag(tag_attributes):
+        return Tag.objects.create(**tag_attributes)
+
     @classmethod
     def setUpTestData(cls) -> None:
         super().setUpTestData()
@@ -38,9 +45,9 @@ class TestViewSetBase(APITestCase):
         return reverse(f"{cls.basename}-list", args=args)
 
     @classmethod
-    def list_url_filter(cls, filter: str = None, filter_value: str = None) -> str:
+    def list_url_filter(cls, filter_field: str = None, filter_value: str = None) -> str:
         url = reverse(f"{cls.basename}-list")
-        return f"{url}?{filter}={filter_value}"
+        return f"{url}?{filter_field}={filter_value}"
 
     def create(self, data: dict, args: List[Union[str, int]] = None) -> dict:
         self.client.force_login(self.user)
@@ -73,9 +80,8 @@ class TestViewSetBase(APITestCase):
         response = self.client.get(self.list_url())
         return response
 
-    def filter(self, filter: str = None, filter_value: str = None) -> list:
+    def filter(self, filter_field: str = None, filter_value: str = None) -> list:
         self.client.force_login(self.user)
-        response = self.client.get(self.list_url_filter(filter, filter_value))
+        response = self.client.get(self.list_url_filter(filter_field, filter_value))
         assert response.status_code == HTTPStatus.OK, response.content
         return response.json()
-

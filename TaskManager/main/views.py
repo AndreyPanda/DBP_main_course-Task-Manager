@@ -18,6 +18,7 @@ class UserFilter(FilterSet):
 
 
 class TaskFilter(FilterSet):
+    title = CharFilter(lookup_expr="icontains")
     state = ChoiceFilter(choices=Task.States.choices)
     tags = ModelMultipleChoiceFilter(
         field_name="tags__title", queryset=Tag.objects.all()
@@ -27,7 +28,7 @@ class TaskFilter(FilterSet):
 
     class Meta:
         model = Task
-        fields = ("state", "tags", "author", "executor")
+        fields = ("title", "state", "tags", "author", "executor")
 
 
 class UserViewSet(viewsets.ModelViewSet):

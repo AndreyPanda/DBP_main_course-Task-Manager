@@ -20,8 +20,8 @@ class Task(models.Model):
 
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=2000)
-    date_of_creation = models.DateTimeField(null=True)
-    date_of_change = models.DateTimeField(null=True)
+    date_of_creation = models.DateField(auto_now_add=True)
+    date_of_change = models.DateField(null=True)
     deadline = models.DateField(null=True)
     state = models.CharField(
         max_length=255, default=States.NEW_TASK, choices=States.choices

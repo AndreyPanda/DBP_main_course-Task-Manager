@@ -1,5 +1,6 @@
 from base import TestViewSetBase
 from http import HTTPStatus
+from main.models import User
 
 
 class TestUserViewSet(TestViewSetBase):
@@ -58,15 +59,14 @@ class TestUserViewSet(TestViewSetBase):
         assert response.status_code == HTTPStatus.FORBIDDEN
 
     def test_filter(self):
-        filter_name = "username"
+        filter_field = "username"
         filter_value = "a"
         user_for_filter = self.create_api_user(self.user_attributes)
         users = self.list().json()
         expected_users: list = []
         for user in users:
-            for char in user[filter_name]:
-                if char == filter_value:
-                    expected_users.append(user)
-                    break
-        response = self.filter(filter=filter_name, filter_value=filter_value)
+            if filter_value in user[filter_field]:
+                expected_users.append(user)
+                break
+        response = self.filter(filter_field=filter_field, filter_value=filter_value)
         assert response == expected_users
