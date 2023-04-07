@@ -11,11 +11,11 @@ class TestViewSetBase(APITestCase):
     basename: str
 
     setup_user_attributes = {
-        'username': 'johnsmit',
-        'first_name': 'John',
-        'last_name': 'Smith',
-        'email': 'john@test.com',
-        'role': 'developer',
+        "username": "johnsmit",
+        "first_name": "John",
+        "last_name": "Smith",
+        "email": "john@test.com",
+        "role": "developer",
     }
 
     @staticmethod

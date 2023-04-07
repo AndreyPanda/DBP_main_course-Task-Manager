@@ -31,6 +31,14 @@ class TaskFilter(FilterSet):
         fields = ("title", "state", "tags", "author", "executor")
 
 
+class TagFilter(FilterSet):
+    title = CharFilter(lookup_expr="icontains")
+
+    class Meta:
+        model = Tag
+        fields = ("title",)
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.order_by("id")
     serializer_class = UserSerializer
@@ -50,3 +58,4 @@ class TaskViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.order_by("id")
     serializer_class = TagSerializer
+    filterset_class = TagFilter
