@@ -8,15 +8,17 @@ from django_filters import (
     ModelMultipleChoiceFilter,
 )
 
+
 class UserFilter(FilterSet):
-    name = CharFilter(lookup_expr="icontains")
+    username = CharFilter(lookup_expr="icontains")
 
     class Meta:
         model = User
-        fields = ('first_name',)
+        fields = ("username",)
 
 
 class TaskFilter(FilterSet):
+    title = CharFilter(lookup_expr="icontains")
     state = ChoiceFilter(choices=Task.States.choices)
     tags = ModelMultipleChoiceFilter(
         field_name="tags__title", queryset=Tag.objects.all()
@@ -26,7 +28,15 @@ class TaskFilter(FilterSet):
 
     class Meta:
         model = Task
-        fields = ('state', 'tags', 'author', 'executor')
+        fields = ("title", "state", "tags", "author", "executor")
+
+
+class TagFilter(FilterSet):
+    title = CharFilter(lookup_expr="icontains")
+
+    class Meta:
+        model = Tag
+        fields = ("title",)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -48,3 +58,4 @@ class TaskViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.order_by("id")
     serializer_class = TagSerializer
+    filterset_class = TagFilter
