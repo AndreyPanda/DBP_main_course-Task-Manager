@@ -488,7 +488,7 @@ test = ["pytest (>=6)"]
 name = "factory-boy"
 version = "3.2.1"
 description = "A versatile test fixtures replacement based on thoughtbot's factory_bot for Ruby."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
@@ -507,7 +507,7 @@ doc = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-spelling"]
 name = "faker"
 version = "18.4.0"
 description = "Faker is a Python package that generates fake data for you."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -522,7 +522,7 @@ python-dateutil = ">=2.4"
 name = "freezegun"
 version = "1.2.2"
 description = "Let your Python tests travel through time"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
@@ -1217,4 +1217,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "c5a0e88805949437050ed06219027bc6b0cc2eaf4d682a1eff1f3f8e984cc314"
+content-hash = "fc2558dbce8911aa52dc19c1af503d66bd8f3cc799fe22a6196cda13a85a82a5"
