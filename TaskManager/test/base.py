@@ -50,28 +50,28 @@ class TestViewSetBase(APITestCase):
         return f"{url}?{filter_field}={filter_value}"
 
     def create(self, data: dict, args: List[Union[str, int]] = None) -> dict:
-        self.client.force_authenticate(self.user)
+        self.client.force_login(self.user)
         response = self.client.post(self.list_url(args), data=data)
         assert response.status_code == HTTPStatus.CREATED, response.content
         return response.data
 
     def list(self, args: List[Union[str, int]] = None) -> dict:
-        self.client.force_authenticate(self.user)
+        self.client.force_login(self.user)
         response = self.client.get(self.list_url(args))
         return response
 
     def retrieve(self, key: Union[int, str]) -> dict:
-        self.client.force_authenticate(self.user)
+        self.client.force_login(self.user)
         response = self.client.get(self.detail_url(key))
         return response
 
     def update(self, key: Union[int, str], data: dict) -> dict:
-        self.client.force_authenticate(self.user)
+        self.client.force_login(self.user)
         response = self.client.put(self.detail_url(key), data=data)
         return response
 
     def delete(self, key: Union[int, str]) -> None:
-        self.client.force_authenticate(self.user)
+        self.client.force_login(self.user)
         response = self.client.delete(self.detail_url(key))
         return response
 
@@ -81,7 +81,7 @@ class TestViewSetBase(APITestCase):
         return response
 
     def filter(self, filter_field: str = None, filter_value: str = None) -> list:
-        self.client.force_authenticate(self.user)
+        self.client.force_login(self.user)
         response = self.client.get(self.list_url_filter(filter_field, filter_value))
         assert response.status_code == HTTPStatus.OK, response.content
         return response.json()

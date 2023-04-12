@@ -60,7 +60,7 @@ class TestUserViewSet(TestViewSetBase):
 
     def test_unauthenticated_request(self):
         response = self.unauthenticated_request()
-        assert response.status_code == HTTPStatus.UNAUTHORIZED
+        assert response.status_code == HTTPStatus.FORBIDDEN
 
     def test_filter(self):
         filter_field = "username"
