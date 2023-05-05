@@ -18,6 +18,7 @@ services:
       DATABASE_USER: postgres
       DATABASE_PASSWORD: postgres
       DATABASE_HOST: db
+      DATABASE_PORT: 5432
       NEW_RELIC_CONFIG_FILE: /app/newrelic.ini
 
       EMAIL_USE_SSL: 1

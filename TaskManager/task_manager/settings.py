@@ -57,7 +57,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
+    "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
 ]
 
 ROOT_URLCONF = "task_manager.urls"
@@ -148,13 +148,14 @@ REST_FRAMEWORK = {
 }
 
 ROLLBAR = {
-    'access_token': '5cfbce830cff4b4eb6d6c96250cb52d5',
-    'environment': 'development' if DEBUG else 'production',
-    'code_version': '1.0',
-    'root': BASE_DIR,
+    "access_token": "5cfbce830cff4b4eb6d6c96250cb52d5",
+    "environment": "development" if DEBUG else "production",
+    "code_version": "1.0",
+    "root": BASE_DIR,
 }
 
-def strtobool (val):
+
+def strtobool(val):
     """Convert a string representation of truth to true (1) or false (0).
 
     True values are 'y', 'yes', 't', 'true', 'on', and '1'; false values
@@ -162,12 +163,13 @@ def strtobool (val):
     'val' is anything else.
     """
     val = val.lower()
-    if val in ('y', 'yes', 't', 'true', 'on', '1'):
+    if val in ("y", "yes", "t", "true", "on", "1"):
         return 1
-    elif val in ('n', 'no', 'f', 'false', 'off', '0'):
+    elif val in ("n", "no", "f", "false", "off", "0"):
         return 0
     else:
         raise ValueError("invalid truth value %r" % (val,))
+
 
 EMAIL_USE_SSL = strtobool(os.environ.get("EMAIL_USE_SSL", "0"))
 EMAIL_USE_TLS = strtobool(os.environ.get("EMAIL_USE_TLS", "0"))
