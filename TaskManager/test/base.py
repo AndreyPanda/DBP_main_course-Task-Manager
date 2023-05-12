@@ -3,6 +3,7 @@ from rest_framework.test import APIClient, APITestCase
 from typing import Union, List
 from django.urls import reverse
 from http import HTTPStatus
+from factory import Faker
 
 
 class TestViewSetBase(APITestCase):
@@ -16,6 +17,7 @@ class TestViewSetBase(APITestCase):
         "last_name": "Smith",
         "email": "john@test.com",
         "role": "developer",
+        "avatar_picture": "picture.jpeg",
     }
 
     @staticmethod
