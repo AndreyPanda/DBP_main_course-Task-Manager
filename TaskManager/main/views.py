@@ -7,6 +7,8 @@ from django_filters import (
     ChoiceFilter,
     ModelMultipleChoiceFilter,
 )
+from main.services.single_resource import SingleResourceMixin, SingleResourceUpdateMixin
+from typing import cast
 
 
 class UserFilter(FilterSet):
@@ -59,3 +61,13 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.order_by("id")
     serializer_class = TagSerializer
     filterset_class = TagFilter
+
+
+class CurrentUserViewSet(
+    SingleResourceMixin, SingleResourceUpdateMixin, viewsets.ModelViewSet
+):
+    serializer_class = UserSerializer
+    queryset = User.objects.order_by("id")
+
+    def get_object(self) -> User:
+        return cast(User, self.request.user)

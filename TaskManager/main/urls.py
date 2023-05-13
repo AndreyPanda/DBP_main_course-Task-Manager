@@ -1,10 +1,11 @@
 from django.urls import path, include, re_path
 from rest_framework import routers
-from .views import UserViewSet, TaskViewSet, TagViewSet
+from .views import UserViewSet, TaskViewSet, TagViewSet, CurrentUserViewSet
 from .admin import task_manager_admin_site
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from main.services.single_resource import BulkRouter
 
 
 schema_view = get_schema_view(
@@ -20,10 +21,12 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny],
 )
 
-router = routers.SimpleRouter()
-router.register(r"users", UserViewSet, basename="users")
-router.register(r"tasks", TaskViewSet, basename="tasks")
-router.register(r"tags", TagViewSet, basename="tags")
+router = BulkRouter()
+router.register(r"current-user", CurrentUserViewSet, basename="current_user")
+# router = routers.SimpleRouter()
+# router.register(r"users", UserViewSet, basename="users")
+# router.register(r"tasks", TaskViewSet, basename="tasks")
+# router.register(r"tags", TagViewSet, basename="tags")
 
 urlpatterns = [
     path("admin/", task_manager_admin_site.urls),
