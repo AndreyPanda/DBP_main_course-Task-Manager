@@ -24,9 +24,9 @@ schema_view = get_schema_view(
 router = BulkRouter()
 router.register(r"current-user", CurrentUserViewSet, basename="current_user")
 # router = routers.SimpleRouter()
-# router.register(r"users", UserViewSet, basename="users")
-# router.register(r"tasks", TaskViewSet, basename="tasks")
-# router.register(r"tags", TagViewSet, basename="tags")
+router.register(r"users", UserViewSet, basename="users")
+router.register(r"tasks", TaskViewSet, basename="tasks")
+router.register(r"tags", TagViewSet, basename="tags")
 
 urlpatterns = [
     path("admin/", task_manager_admin_site.urls),
