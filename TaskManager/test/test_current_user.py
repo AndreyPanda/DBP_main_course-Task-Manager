@@ -13,12 +13,12 @@ class TestUserViewSet(TestViewSetBase):
         user.pop("avatar_picture")
 
         assert user == {
-            'id': self.user.id,
-            'email': self.user.email,
-            'first_name': self.user.first_name,
-            'last_name': self.user.last_name,
-            'role': self.user.role,
-            'username': self.user.username,
+            "id": self.user.id,
+            "email": self.user.email,
+            "first_name": self.user.first_name,
+            "last_name": self.user.last_name,
+            "role": self.user.role,
+            "username": self.user.username,
         }
 
     def test_patch(self):
