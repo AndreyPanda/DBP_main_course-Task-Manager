@@ -19,6 +19,8 @@ x-db-config: &db-config
   DATABASE_HOST: db
   DATABASE_PORT: 5432
   POSTGRES_PASSWORD: pgpassword
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
 
 services:
   api:
