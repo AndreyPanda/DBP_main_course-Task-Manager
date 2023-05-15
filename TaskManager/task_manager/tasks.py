@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from main.models import Task
 from task_manager.celery import app
 
+
 @app.task
 def send_assign_notification(task_id: int) -> None:
     task = Task.objects.get(pk=task_id)
