@@ -19,6 +19,7 @@ def public_storage() -> Storage:
     storage_class = import_string(storage_path)
     return storage_class()
 
+
 def local_file_name(report_name: str, request: Context, file_type: str) -> str:
     return f"{report_name}-{request.id}.{file_type}"
 

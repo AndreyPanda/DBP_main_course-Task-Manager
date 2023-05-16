@@ -6,6 +6,7 @@ from .views import (
     CurrentUserViewSet,
     UserTasksViewSet,
     TaskTagsViewSet,
+    CountdownJobViewSet,
 )
 from .admin import task_manager_admin_site
 from rest_framework import permissions
@@ -44,6 +45,7 @@ tasks.register(
     parents_query_lookups=["task_id"],
 )
 router.register(r"tags", TagViewSet, basename="tags")
+router.register(r"countdown", CountdownJobViewSet, basename="countdown")
 
 urlpatterns = [
     path("admin/", task_manager_admin_site.urls),
