@@ -133,3 +133,11 @@ class TestViewSetBase(APITestCase):
             "id": tag.id,
             "title": tag.title,
         }
+
+    def request_create(
+        self, data: dict, args: List[Union[str, int]] = None
+    ) -> Response:
+        self.client.force_authenticate(user=self.user, token=None)
+        response = self.client.post(self.list_url(args=args), data=data)
+        assert response.status_code == HTTPStatus.CREATED, response.content
+        return response

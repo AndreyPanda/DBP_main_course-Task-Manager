@@ -1,5 +1,5 @@
 from rest_framework import viewsets, mixins, status
-from .serializers import UserSerializer, TaskSerializer, TagSerializer
+from .serializers import UserSerializer, TaskSerializer, TagSerializer, JobSerializer
 from .models import User, Task, Tag
 from django_filters import (
     FilterSet,
