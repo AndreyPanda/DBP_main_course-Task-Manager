@@ -10,6 +10,8 @@ class S3PublicStorage(S3Boto3Storage):  # pylint: disable=abstract-method
 
 
 def public_storage() -> Storage:
-    storage_path = getattr(settings, "PUBLIC_FILE_STORAGE", settings.DEFAULT_FILE_STORAGE)
+    storage_path = getattr(
+        settings, "PUBLIC_FILE_STORAGE", settings.DEFAULT_FILE_STORAGE
+    )
     storage_class = import_string(storage_path)
     return storage_class()

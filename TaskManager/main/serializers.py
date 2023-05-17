@@ -21,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
         validators=[
             FileMaxSizeValidator(settings.UPLOAD_MAX_SIZES["avatar_picture"]),
             FileExtensionValidator(["jpeg", "jpg", "png"]),
-        ]
+        ],
     )
 
     class Meta:
