@@ -23,8 +23,46 @@ class LoggingMiddleware:
 
 class RequestFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
-        request = _thread_locals.request
+        request = getattr(_thread_locals, "request", PlaceHolder())
         record.request = request
-        record.view = _thread_locals.view
+        record.remote_addr = self.get_remote_ip(request)
+        record.view = getattr(_thread_locals, "view", PlaceHolder())
         record.user_id = request.user.id if request.user.is_authenticated else "-"
+        record.user_email = request.user.email if request.user.is_authenticated else "-"
+        record.duration = self.get_duration(request)
+
         return super().format(record)
+
+    @staticmethod
+    def get_remote_ip(request: HttpRequest) -> str:
+        forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+        if forwarded_for:
+            return forwarded_for.split(",", 1)[0]
+        return request.META.get("REMOTE_ADDR", PlaceHolder())
+
+    @staticmethod
+    def get_duration(request) -> str:
+        duration = request.log_record_duration
+        if duration:
+            return duration
+        return request.META.get("DURATION", PlaceHolder())
+
+
+class PlaceHolder:
+    def __init__(self, to_str: str = "-") -> None:
+        self._to_str = to_str
+
+    def __getattr__(self, name: str) -> "PlaceHolder":
+        return self
+
+    def __call__(self, *args: Any, **kwargs: Any) -> "PlaceHolder":
+        return self
+
+    def __str__(self) -> str:
+        return self._to_str
+
+    def __repr__(self) -> str:
+        return self._to_str
+
+    def __bool__(self) -> bool:
+        return False
