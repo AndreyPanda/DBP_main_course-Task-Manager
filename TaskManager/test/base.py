@@ -3,7 +3,7 @@ from rest_framework.test import APIClient, APITestCase
 from typing import Union, List
 from django.urls import reverse
 from http import HTTPStatus
-from factory import Faker
+from rest_framework.response import Response
 
 
 class TestViewSetBase(APITestCase):
@@ -87,3 +87,49 @@ class TestViewSetBase(APITestCase):
         response = self.client.get(self.list_url_filter(filter_field, filter_value))
         assert response.status_code == HTTPStatus.OK, response.content
         return response.json()
+
+    def request_single_resource(self, data: dict = None) -> Response:
+        self.client.force_authenticate(user=self.user, token=None)
+        return self.client.get(self.list_url(), data=data)
+
+    def single_resource(self, data: dict = None) -> dict:
+        response = self.request_single_resource(data)
+        assert response.status_code == HTTPStatus.OK
+        return response.data
+
+    def request_patch_single_resource(self, attributes: dict) -> Response:
+        self.client.force_authenticate(user=self.user, token=None)
+        url = self.list_url()
+        return self.client.patch(url, data=attributes)
+
+    def patch_single_resource(self, attributes: dict) -> dict:
+        response = self.request_patch_single_resource(attributes)
+        assert response.status_code == HTTPStatus.OK, response.content
+        return response.data
+
+    def get_expected_task_attr(cls, task: Task) -> dict:
+        tag_list = [tag.title for tag in task.tags.all()]
+        expected_task_attr = {
+            "id": task.id,
+            "title": task.title,
+            "description": task.description,
+            "deadline": task.deadline
+            if isinstance(task.deadline, str)
+            else task.deadline.strftime("%Y-%m-%d"),
+            "executor": task.executor.id,
+            "date_of_creation": task.date_of_creation
+            if isinstance(task.date_of_creation, str)
+            else task.date_of_creation.strftime("%Y-%m-%d"),
+            "date_of_change": None,
+            "tags": tag_list,
+            "state": str(task.state),
+            "priority": task.priority,
+        }
+        return expected_task_attr
+
+    @classmethod
+    def get_expected_tag_attr(cls, tag: Tag) -> dict:
+        return {
+            "id": tag.id,
+            "title": tag.title,
+        }
