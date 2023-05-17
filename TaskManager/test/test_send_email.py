@@ -4,10 +4,12 @@ from django.core import mail
 from django.template.loader import render_to_string
 
 from main.models import Task, User
-from main.services.mail import send_assign_notification
+from task_manager.tasks import send_assign_notification
 from base import TestViewSetBase
+from django.test import override_settings
 
 
+@override_settings(CELERY_TASK_ALWAYS_EAGER=True)
 class TestSendEmail(TestViewSetBase):
     user_attributes = {
         "username": "AndreyPanda",
@@ -34,7 +36,7 @@ class TestSendEmail(TestViewSetBase):
 
         task = self.create_task(task_data)
 
-        send_assign_notification(task.id)
+        send_assign_notification.delay(task.id)
 
         fake_sender.assert_called_once_with(
             subject="You've assigned a task.",
