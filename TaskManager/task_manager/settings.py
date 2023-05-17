@@ -58,6 +58,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "rollbar.contrib.django.middleware.RollbarNotifierMiddleware",
+    "task_manager.log_utils.LoggingMiddleware",
 ]
 
 ROOT_URLCONF = "task_manager.urls"
@@ -210,7 +211,11 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "task_manager": {
-            "format": ("{asctime} {levelname} {message}"),
+            "()": "task_manager.log_utils.RequestFormatter",
+            "format": (
+                "{asctime} {levelname} method={request.method} path={request.path_info} "
+                "view={view.__qualname__} user={user_id} {message}"
+            ),
             "style": "{",
         },
     },
