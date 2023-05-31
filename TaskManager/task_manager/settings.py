@@ -214,7 +214,7 @@ LOGGING = {
             "()": "task_manager.log_utils.RequestFormatter",
             "format": (
                 "{asctime} {levelname} method={request.method} path={request.path_info} "
-                "view={view.__qualname__} user={user_id} {message}"
+                "view={view.__qualname__} user={user_id} remote={remote_addr} {message}"
             ),
             "style": "{",
         },
