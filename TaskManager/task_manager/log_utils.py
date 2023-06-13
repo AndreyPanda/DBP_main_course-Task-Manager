@@ -1,6 +1,7 @@
 import logging
 from threading import local
 from typing import Any, Callable
+import time
 
 from django.http import HttpRequest, HttpResponse
 
@@ -14,7 +15,11 @@ class LoggingMiddleware:
 
     def __call__(self, request: HttpRequest) -> HttpResponse:
         _thread_locals.request = request
+
+        start_time = time.time()
         response = self.get_response(request)
+        _thread_locals.execution_time = time.time() - start_time
+
         return response
 
     def process_view(self, request: HttpRequest, view_func: Callable, *_: Any) -> None:
@@ -29,7 +34,7 @@ class RequestFormatter(logging.Formatter):
         record.view = getattr(_thread_locals, "view", PlaceHolder())
         record.user_id = request.user.id if request.user.is_authenticated else "-"
         record.user_email = request.user.email if request.user.is_authenticated else "-"
-        record.duration = self.get_duration(request)
+        record.execution_time = getattr(_thread_locals, "execution_time", PlaceHolder())
 
         return super().format(record)
 
@@ -39,13 +44,6 @@ class RequestFormatter(logging.Formatter):
         if forwarded_for:
             return forwarded_for.split(",", 1)[0]
         return request.META.get("REMOTE_ADDR", PlaceHolder())
-
-    @staticmethod
-    def get_duration(request) -> str:
-        duration = request.log_record_duration
-        if duration:
-            return duration
-        return request.META.get("DURATION", PlaceHolder())
 
 
 class PlaceHolder:
